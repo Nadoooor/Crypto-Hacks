@@ -108,10 +108,9 @@ func Normal2BIN(input string) string {
 	//Don't forget the slicing process doesn't count the spaces as runes
 	var char rune
 	var output []string
-	chars := input
 
-	for i := 0; i < len(chars); i++ {
-		char = rune(chars[i])
+	for i := 0; i < len(input); i++ {
+		char = rune(input[i])
 		output = append(output, data[char])
 
 	}
