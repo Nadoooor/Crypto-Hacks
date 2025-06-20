@@ -16,10 +16,10 @@ import (
 
 
 func main() {
-app := tview.NewApplication()
-	wm := winman.NewWindowManager()
+var app *tview.Application = tview.NewApplication()
+	var wm *winman.Manager= winman.NewWindowManager()
 
-	quitMsgBox := Msg.MsgBox("Confirmation", "Really quit?", []string{"Yes", "No"}, func(clicked string) {
+	var quitMsgBox *winman.WindowBase= Msg.MsgBox("Confirmation", "Really quit?", []string{"Yes", "No"}, func(clicked string) {
 		if clicked == "Yes" {
 			app.Stop()
 		}
@@ -34,18 +34,23 @@ app := tview.NewApplication()
 	}
 
 	var createForm func(modal bool) *winman.WindowBase
-	var counter = 0
+	var counter int = 0
 
 	createForm = func(modal bool) *winman.WindowBase {
 		counter++
-		form := tview.NewForm()
-		window := winman.NewWindow().
-			SetRoot(form).
-			SetResizable(true).
+		var form *tview.Form= tview.NewForm()
+		var form1 *tview.Form= tview.NewForm()
+		var form2 *tview.Form= tview.NewForm()
+		var All *tview.Grid= tview.NewGrid().
+		SetSize(10,4,0,0)
+		
+		var window *winman.WindowBase= winman.NewWindow().
+			SetRoot(All).
+			SetResizable(false).
 			SetDraggable(true).
 			SetModal(modal)
 
-		quit := func() {
+		var quit func()= func() {
 			if wm.WindowCount() == 3 {
 				quitMsgBox.Show()
 				wm.Center(quitMsgBox)
@@ -56,45 +61,65 @@ app := tview.NewApplication()
 			}
 		}
 
-		display := 	tview.NewTextView().
+		var display *tview.TextView = tview.NewTextView().
 		SetText("Output Here:").
 		SetTextAlign(tview.AlignLeft)
-
-		form.AddInputField("Enter Here", "", 40, nil, nil).
+		
+			All.AddItem(form.AddInputField("Enter Here", "", 40, nil, nil).
 			AddInputField("Enter ROT (Caesar)", "", 40, nil, nil).
 			AddFormItem(display).
-			AddButton("Normal 2 Hex", func() {
-				out := Hex.Normal2Hex(form.GetFormItem(0).(*tview.InputField).GetText())
+			AddButton("T 2 H", func() {
+				var out string = Hex.Normal2Hex(form.GetFormItem(0).(*tview.InputField).GetText())
 				display.SetText(fmt.Sprintf( "Output Here:" + out))
 			}).
-			AddButton("Normal 2 BIN", func() {
-				out := BIN.Normal2BIN(form.GetFormItem(0).(*tview.InputField).GetText())
+			AddButton("T 2 B", func() {
+				var out string= BIN.Normal2BIN(form.GetFormItem(0).(*tview.InputField).GetText())
 						display.SetText(fmt.Sprintf( "Output Here:" + out))
 			}).
-			AddButton("Normal 2 Base64", func() {
-				out := Base.Normal2base64(form.GetFormItem(0).(*tview.InputField).GetText())
+			AddButton("T 2 B64", func() {
+				var out string= Base.Normal2base64(form.GetFormItem(0).(*tview.InputField).GetText())
 						display.SetText(fmt.Sprintf( "Output Here:" + out))
 			}).
-			AddButton("Normal 2 Base32", func() {
-				out := Base.Normal2base32(form.GetFormItem(0).(*tview.InputField).GetText())
+			AddButton("T 2 B32", func() {
+				var out string = Base.Normal2base32(form.GetFormItem(0).(*tview.InputField).GetText())
 						display.SetText(fmt.Sprintf( "Output Here:" + out))
-			}).
-			AddButton("Normal 2 Caesar", func() {
-				
-				cas, _ := strconv.Atoi(form.GetFormItem(1).(*tview.InputField).GetText())
+			}), 0,0,5,4,0,0,false)
+
+
+			All.AddItem(form1.AddButton("T 2 C", func() {
+				var cas int
+				cas , _ = strconv.Atoi(form.GetFormItem(1).(*tview.InputField).GetText())
 				fmt.Println(cas)
-				out := Caeser.Normal2Cipher(form.GetFormItem(0).(*tview.InputField).GetText(),cas)
+				var out string= Caeser.Normal2Cipher(form.GetFormItem(0).(*tview.InputField).GetText(),cas)
 						display.SetText(fmt.Sprintf( "Output Here:" + out))
 			}).
 
 			AddButton("New", func() {
-				newWnd := createForm(false).Show()
+			newWnd  := createForm(false).Show()
 				wm.AddWindow(newWnd)
 				setFocus(newWnd)
 			}).
-			AddButton("Close", quit)
+			AddButton("Close", quit).
+			SetHorizontal(false), 6,0,1,4,0,0, false)
+			All.AddItem(form2.AddButton("H 2 T", func() {
+				var out string= Hex.Hex2Normal(form.GetFormItem(0).(*tview.InputField).GetText())
+				display.SetText(fmt.Sprintf( "Output Here:" + out))
+			}).
+			AddButton("B 2 T", func() {
+				var out string= BIN.BIN2Normal(form.GetFormItem(0).(*tview.InputField).GetText())
+						display.SetText(fmt.Sprintf( "Output Here:" + out))
+			}).
+			AddButton("B64 2 T", func() {
+				var out string= Base.Base642Normal(form.GetFormItem(0).(*tview.InputField).GetText())
+						display.SetText(fmt.Sprintf( "Output Here:" + out))
+			}).
+			AddButton("B32 2 T", func() {
+				var out string = Base.Base322Normal(form.GetFormItem(0).(*tview.InputField).GetText())
+						display.SetText(fmt.Sprintf( "Output Here:" + out))
+			}), 8,0,1,4,0,0,true)
+			
 
-		title := fmt.Sprintf("Crypto-Hacks%d", counter)
+		var title string= fmt.Sprintf("Crypto-Hacks%d", counter)
 		window.SetBorder(true).SetTitle(title).SetTitleAlign(tview.AlignCenter)
 		window.SetRect(2+counter*2, 2+counter, 50, 30)
 		window.AddButton(&winman.Button{
