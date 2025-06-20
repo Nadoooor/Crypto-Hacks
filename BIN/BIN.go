@@ -1,9 +1,7 @@
 package BIN
 
-import (
-	"fmt"
-	"strings"
-)
+import 	"strings"
+
 
 // Normal2BIN converts a string to its binary representation
 func Normal2BIN(input string) string {
@@ -115,7 +113,7 @@ func Normal2BIN(input string) string {
 
 	}
 
-	fmt.Println(strings.Join(output, " "))
+
 	return strings.Join(output, " ")
 
 }
@@ -232,7 +230,7 @@ func BIN2Normal(input string) string {
 
 	}
 
-	fmt.Println(strings.Join(output, ""))
+
 	return strings.Join(output, "")
 
 }

@@ -1,7 +1,7 @@
-package Caesar
+package Caeser
 
 import (
-	"fmt"
+
 	"strings"
 )
 
@@ -66,18 +66,14 @@ func Normal2Cipher(textinput string, rot int) string {
 	var cipheredText string
 	for _, char := range strings.ToLower(textinput) {
 		if val, exists := recipher[char]; exists {
-			fmt.Println(val)
-			fmt.Println(rot)
 			if rot < (26 - val) {
 				rot = val + rot
-
 			} else if rot > 26-val && rot < 26 {
 				rot = rot - (26 - val)
 			} else if rot > 26 {
 				for rot > 26 {
 					rot = rot - 26
 				}
-
 			}
 			cipheredText += string(cipher[rot])
 		} else {
@@ -85,7 +81,7 @@ func Normal2Cipher(textinput string, rot int) string {
 			cipheredText += string(char)
 		}
 	}
-	fmt.Println(cipheredText)
+
 	return cipheredText
 
 }
