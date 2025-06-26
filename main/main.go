@@ -1,15 +1,11 @@
-package main
+package m
 
 import (
 	"go/Crypto-Hacks/BIN"
 	"go/Crypto-Hacks/Base"
-	"go/Crypto-Hacks/Caeser"
 	"go/Crypto-Hacks/Hex"
-
-	"strconv"
 	"fmt"
 	"go/Crypto-Hacks/msg"
-
 	"github.com/epiclabs-io/winman"
 	"github.com/rivo/tview"
 )
@@ -25,7 +21,8 @@ var app *tview.Application = tview.NewApplication()
 		}
 	})
 	wm.AddWindow(quitMsgBox)
-
+	var help *winman.WindowBase= Msg.Help()
+	wm.AddWindow(help)
 
 	setFocus := func(p tview.Primitive) {
 		go app.QueueUpdateDraw(func() {
@@ -60,13 +57,18 @@ var app *tview.Application = tview.NewApplication()
 				setFocus(wm)
 			}
 		}
+				var hhelp func()= func() {
+	
+				wm.RemoveWindow(help)
+				setFocus(wm)
+			
+		}
 
 		var display *tview.TextView = tview.NewTextView().
 		SetText("Output Here:").
 		SetTextAlign(tview.AlignLeft)
 		
 			All.AddItem(form.AddInputField("Enter Here", "", 40, nil, nil).
-			AddInputField("Enter ROT (Caesar)", "", 40, nil, nil).
 			AddFormItem(display).
 			AddButton("T 2 H", func() {
 				var out string = Hex.Normal2Hex(form.GetFormItem(0).(*tview.InputField).GetText())
@@ -86,14 +88,7 @@ var app *tview.Application = tview.NewApplication()
 			}), 0,0,5,4,0,0,false)
 
 
-			All.AddItem(form1.AddButton("T 2 C", func() {
-				var cas int
-				cas , _ = strconv.Atoi(form.GetFormItem(1).(*tview.InputField).GetText())
-				fmt.Println(cas)
-				var out string= Caeser.Normal2Cipher(form.GetFormItem(0).(*tview.InputField).GetText(),cas)
-						display.SetText(fmt.Sprintf( "Output Here:" + out))
-			}).
-
+			All.AddItem(form1.
 			AddButton("New", func() {
 			newWnd  := createForm(false).Show()
 				wm.AddWindow(newWnd)
@@ -143,6 +138,18 @@ var app *tview.Application = tview.NewApplication()
 			},
 		}
 		window.AddButton(maxMinButton)
+		window.AddButton(&winman.Button{
+			Symbol: '?',
+			OnClick: func ()  {
+				help.Show()
+				help.AddButton(&winman.Button{
+					Symbol: 'X',
+					OnClick: hhelp,
+				})
+			},
+
+
+		})
 		wm.AddWindow(window)
 		return window
 	}

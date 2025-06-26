@@ -1,10 +1,15 @@
-package Caeser
+package main
 
 import (
-
+	"fmt"
 	"strings"
 )
+func main(){
+	input := "Hello World"
+	rot := 3
+Normal2Cipher(input, rot)
 
+}
 func Normal2Cipher(textinput string, rot int) string {
 
 	cipher := map[int]rune{
@@ -81,7 +86,7 @@ func Normal2Cipher(textinput string, rot int) string {
 			cipheredText += string(char)
 		}
 	}
-
+	fmt.Println("Ciphered Text:", cipheredText)
 	return cipheredText
 
 }

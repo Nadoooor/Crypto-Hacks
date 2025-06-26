@@ -41,17 +41,13 @@ func MsgBox(title, text string, buttons []string, callback func(clicked string))
 func Help() *winman.WindowBase {
 
 	msgBox := winman.NewWindow()
-	message := tview.NewTextView().SetText("H for Hex, T for Text, B for BIN, B64 for Base64, B32 for Base32, C for Caesar").SetTextAlign(tview.AlignCenter)
+	message := tview.NewTextView().SetText("H for Hex, T for Text, B for BIN, B64 for Base64, B32 for Base32. \n Enter in BIN like this format: \n  1001100 1101111 1110110 1100101 0100000 1011001 1001111 1010101").SetTextAlign(tview.AlignCenter)
 	content := tview.NewFlex().
 		SetDirection(tview.FlexRow).
-		AddItem(nil, 0, 1, false).
 		AddItem(message, 0, 1, false)
-	
-
-
 	msgBox.SetRoot(content)
 	msgBox.SetTitle("Help").
-		SetRect(4, 2, 60, 10)
+		SetRect(4, 2, 60, 9)
 	msgBox.Draggable = true
 	msgBox.Modal = true
 

@@ -3,10 +3,9 @@ package BIN
 import 	"strings"
 
 
-// Normal2BIN converts a string to its binary representation
+
 func Normal2BIN(input string) string {
 
-	//The Binary list
 	data := map[rune]string{
 		'A':  "1000001",
 		'B':  "1000010",
@@ -103,7 +102,9 @@ func Normal2BIN(input string) string {
 		' ':  "0100000",
 		'\\': "1011100"}
 
-	//Don't forget the slicing process doesn't count the spaces as runes
+if input == "" {
+		return "Input is empty"
+	}else {
 	var char rune
 	var output []string
 
@@ -115,13 +116,13 @@ func Normal2BIN(input string) string {
 
 
 	return strings.Join(output, " ")
-
+	}
 }
 
-// BIN2Normal converts a binary string to its normal string representation
+
 func BIN2Normal(input string) string {
 
-	//The Binary list
+	
 	Data := map[string]rune{
 		"1000001": 'A',
 		"1000010": 'B',
@@ -219,11 +220,16 @@ func BIN2Normal(input string) string {
 		"1011100": '\\',
 	}
 
-	//Don't forget the slicing process doesn't count the spaces as runes
+
 	var char rune
 	var output []string
 	chars := input
-
+	if input == "" {
+		return "Input is empty"
+	}else if input != "1000001" && input != "1000010" && input != "1000011" && input != "1000100" && input != "1000101" && input != "1000110" && input != "1000111" && input != "1001000" && input != "1001001" && input != "1001010" && input != "1001011" && input != "1001100" && input != "1001101" && input != "1001110" && input != "1001111" && input != "1010000" && input != "1010001" && input != "1010010" && input != "1010011" && input != "1010100" && input != "1010101" && input != "1010110" && input != "1010111" && input != "1011000" && input != "1011001" && input != "1011010" &&
+		input != "1100001" && input != "1100010" && input != "1100011" && input != "1100100" && input != "1100101" && input != "1100110" && input != "1100111" && input != "1101000" && input != "1101001" && input != "1101010" && input != "1101011" && input != "1101100" && input != "1101101" && input != "1101110" && input != "1101111" && input != "1110000" && input != "1110001" && input != "1110010" && input != "1110011" && input != "1110100" && input != "1110101" && input != "1110110" && input != "1110111" && input != "1111000" && input != "1111001" && input != "1111010" &&
+		input != "0110000" && input != "0110001" && input != "0110010" && input != "0110011" && input != "0110100" && input != "0110101" && input != "0110110" && input != "0110111" && input != "0111000" && input != "0111001" && input != "0100001" && input != "0100010" && input != "0100011" && input != "0100100" && input != "0100101" && input != "0100110" && input != "0101000" && input != "0101001" && input != "0101010" && input != "0101100" && input != "0101101" && input != "0101110" && input != "0101111" && input != "0111010" && input != "0111011" && input != "0111100" && input != "0111101" && input != "0111110" && input != "0111111" &&
+		input != "1000000" && input != "1011011" && input != "0100111" && input != "1011101" && input != "1011110" && input != "1011111" && input != "1100000" && input != "1111011" && input != "1111100" && input != "1111101" && input != "1111110" && input != "0100000" && input != "1011100" { return "Invalid BIN input"} else {
 	for i := 0; i < len(chars); i = i + 8 {
 		char = Data[chars[i:i+7]]
 		output = append(output, string(char))
@@ -232,5 +238,5 @@ func BIN2Normal(input string) string {
 
 
 	return strings.Join(output, "")
-
+		}
 }
