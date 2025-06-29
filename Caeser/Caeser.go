@@ -1,16 +1,12 @@
-package main
+package Caesar
 
 import (
-	"fmt"
+	"strconv"
 	"strings"
 )
-func main(){
-	input := "Hello World"
-	rot := 3
-Normal2Cipher(input, rot)
 
-}
-func Normal2Cipher(textinput string, rot int) string {
+func Normal2Caesar(textinput string, rot string) string {
+	rotr , _ := strconv.Atoi(rot)
 
 	cipher := map[int]rune{
 		1:  'a',
@@ -69,24 +65,35 @@ func Normal2Cipher(textinput string, rot int) string {
 		'z': 26}
 
 	var cipheredText string
+	var rotv int = 0
+	var rotb int
 	for _, char := range strings.ToLower(textinput) {
 		if val, exists := recipher[char]; exists {
-			if rot < (26 - val) {
-				rot = val + rot
-			} else if rot > 26-val && rot < 26 {
-				rot = rot - (26 - val)
-			} else if rot > 26 {
-				for rot > 26 {
-					rot = rot - 26
+			if rotr <= (26 - val) {
+				rotv = val + rotr
+				cipheredText += string(cipher[rotv])
+			} else if rotr > 26-val && rotr < 26 {
+				rotv = rotr - (26 - val)
+				cipheredText += string(cipher[rotv])
+			} else if rotr > 26 {
+				rotv = rotr
+				for rotv > 26 {
+					rotv = rotv - 26
+				}
+				if rotv <= (26 - val) {
+					rotb = val + rotv
+					cipheredText += string(cipher[rotb])
+				} else if rotv > 26-val && rotv < 26 {
+					rotb = rotv - (26 - val)
+					cipheredText += string(cipher[rotb])
 				}
 			}
-			cipheredText += string(cipher[rot])
+			
 		} else {
 
 			cipheredText += string(char)
 		}
 	}
-	fmt.Println("Ciphered Text:", cipheredText)
 	return cipheredText
 
 }
